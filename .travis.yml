@@ -10,6 +10,13 @@ script:
 
 after_success:
   - docker build -t ryokinoshita/multi-client ./client
-  - docker build -t ryokinoshita/multi-client ./nginx
-  - docker build -t ryokinoshita/multi-client ./server
-  - docker build -t ryokinoshita/multi-client ./worker
+  - docker build -t ryokinoshita/multi-nginx ./nginx
+  - docker build -t ryokinoshita/multi-server ./server
+  - docker build -t ryokinoshita/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those iamges and push them to docker hub
+  - docker push ryokinoshita/multi-client
+  - docker push ryokinoshita/multi-nginx
+  - docker push ryokinoshita/multi-server
+  - docker push ryokinoshita/multi-worker
