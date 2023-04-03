@@ -1,15 +1,14 @@
 sudo: required
 services:
-  - docker 
+  - docker
 
-before_install: 
+before_install:
   - docker build -t ryokinoshita/react-test -f ./client/Dockerfile.dev ./client
-  - docker build myotherproject
-  
+
 script:
   - docker run -e CI=true ryokinoshita/react-test npm test
 
-after_success: 
+after_success:
   - docker build -t ryokinoshita/multi-client ./client
   - docker build -t ryokinoshita/multi-client ./nginx
   - docker build -t ryokinoshita/multi-client ./server
